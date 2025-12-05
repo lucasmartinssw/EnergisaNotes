@@ -7,7 +7,7 @@ using Microsoft.Identity.Web;
 
 namespace EnergisaNotes.API.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class IncidentesController : ControllerBase
