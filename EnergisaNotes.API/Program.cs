@@ -2,7 +2,9 @@ using EnergisaNotes.Infra; // Referência à Infra
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
+using DotNetEnv;
 
+Env.Load(); // carrega .env do diretório atual — chame ANTES de CreateBuilder para que as vars já estejam disponíveis
 var builder = WebApplication.CreateBuilder(args);
 
 // --- 1. CONFIGURAÇÃO DA ARQUITETURA ---
