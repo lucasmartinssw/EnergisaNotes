@@ -11,12 +11,32 @@ public class AppDbContext : DbContext
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Incidente> Incidentes { get; set; }
 
+    // --- NOVO DBSET ---
+    public DbSet<Area> Areas { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // --- 1. CONFIGURAÇÕES DAS TABELAS ---
+        // --- 1. CONFIGURAÇÃO: AREA (NOVA) ---
+        modelBuilder.Entity<Area>(entity =>
+        {
+            entity.ToTable("Areas");
+            entity.HasKey(a => a.Id);
+            entity.Property(a => a.Nome).IsRequired().HasMaxLength(100);
 
+            // Seed de Áreas (Dados Iniciais Obrigatórios)
+            entity.HasData(
+                new { Id = 1, Nome = "Corporativo", DataCriacao = DateTime.UtcNow },
+                new { Id = 2, Nome = "Tecnologia da Informação", DataCriacao = DateTime.UtcNow },
+                new { Id = 3, Nome = "Recursos Humanos", DataCriacao = DateTime.UtcNow },
+                new { Id = 4, Nome = "Operações", DataCriacao = DateTime.UtcNow },
+                new { Id = 5, Nome = "Comercial", DataCriacao = DateTime.UtcNow },
+                new { Id = 6, Nome = "Atendimento", DataCriacao = DateTime.UtcNow }
+            );
+        });
+
+        // --- 2. CONFIGURAÇÃO: CATEGORIA ---
         modelBuilder.Entity<Categoria>(entity =>
         {
             entity.ToTable("Categorias");
@@ -25,6 +45,7 @@ public class AppDbContext : DbContext
             entity.HasIndex(c => c.Nome).IsUnique();
         });
 
+        // --- 3. CONFIGURAÇÃO: USUARIO (ATUALIZADA) ---
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.ToTable("Usuarios");
@@ -33,15 +54,21 @@ public class AppDbContext : DbContext
             entity.Property(u => u.Nome).IsRequired().HasMaxLength(150);
             entity.Property(u => u.Email).IsRequired().HasMaxLength(150);
             entity.HasIndex(u => u.AzureAdObjectId).IsUnique();
-            entity.HasIndex(u => u.Email).IsUnique();
+
+            // Configuração do Relacionamento (Usuario -> Area)
+            entity.HasOne(u => u.Area)
+                  .WithMany(a => a.Usuarios)
+                  .HasForeignKey(u => u.AreaId)
+                  .OnDelete(DeleteBehavior.Restrict);
         });
 
+        // --- 4. CONFIGURAÇÃO: INCIDENTE ---
         modelBuilder.Entity<Incidente>(entity =>
         {
             entity.ToTable("Incidentes");
             entity.HasKey(i => i.Id);
             entity.Property(i => i.Titulo).IsRequired().HasMaxLength(200);
-            entity.Property(i => i.TextoTemplate).IsRequired().HasColumnType("TEXT"); // MySQL Text
+            entity.Property(i => i.TextoTemplate).IsRequired().HasColumnType("TEXT");
 
             entity.HasOne(i => i.Categoria)
                   .WithMany()
@@ -54,9 +81,9 @@ public class AppDbContext : DbContext
                   .OnDelete(DeleteBehavior.SetNull);
         });
 
-        // --- 2. SEED (DADOS INICIAIS) ---
+        // --- 5. SEEDS RESTANTES ---
 
-        // A. Categorias
+        // Categorias
         modelBuilder.Entity<Categoria>().HasData(
             new { Id = 1, Nome = "Tecnologia da Informação", DataCriacao = DateTime.UtcNow },
             new { Id = 2, Nome = "Infraestrutura Predial", DataCriacao = DateTime.UtcNow },
@@ -66,9 +93,9 @@ public class AppDbContext : DbContext
             new { Id = 6, Nome = "Frota e Logística", DataCriacao = DateTime.UtcNow }
         );
 
-        // B. Usuários (Simulados)
+        // Usuários (Atualizados com AreaId em vez de string Area)
         modelBuilder.Entity<Usuario>().HasData(
-            // Supervisor Geral (Admin)
+            // Supervisor Geral
             new
             {
                 Id = 1,
@@ -76,12 +103,12 @@ public class AppDbContext : DbContext
                 Nome = "Admin Energisa",
                 Email = "admin@energisa.com.br",
                 Cargo = "Gerente de T.I.",
-                Area = "Corporativo",
+                AreaId = 1, // ID 1 = Corporativo
                 IsSupervisor = true,
                 DataCriacao = DateTime.UtcNow,
                 DataUltimaSync = DateTime.UtcNow
             },
-            // Colaborador Comum (Para testar acesso restrito)
+            // Colaborador
             new
             {
                 Id = 2,
@@ -89,23 +116,22 @@ public class AppDbContext : DbContext
                 Nome = "João Colaborador",
                 Email = "joao.silva@energisa.com.br",
                 Cargo = "Analista Jr",
-                Area = "Atendimento",
-                IsSupervisor = false, // Não pode criar categorias nem editar
+                AreaId = 6, // ID 6 = Atendimento
+                IsSupervisor = false,
                 DataCriacao = DateTime.UtcNow,
                 DataUltimaSync = DateTime.UtcNow
             }
         );
 
-        // C. Incidentes (Templates com Variáveis)
+        // Incidentes
         modelBuilder.Entity<Incidente>().HasData(
-            // T.I.
             new
             {
                 Id = 1,
                 Titulo = "Indisponibilidade de Link (Internet)",
                 CategoriaId = 1,
                 UltimoEditorId = 1,
-                TextoTemplate = "Prezados, informamos que a unidade [Unidade] encontra-se sem acesso à internet devido a uma falha massiva na operadora. A previsão de retorno é para as [Horario]. Equipe de T.I.",
+                TextoTemplate = "Prezados, informamos que a unidade [Unidade] encontra-se sem acesso à internet...",
                 DataCriacao = DateTime.UtcNow
             },
             new
@@ -114,37 +140,7 @@ public class AppDbContext : DbContext
                 Titulo = "Lentidão no SAP",
                 CategoriaId = 1,
                 UltimoEditorId = 1,
-                TextoTemplate = "Identificamos lentidão no módulo [ModuloSAP] do sistema SAP. O time de sustentação já está atuando. Chamado técnico: [NumeroChamado].",
-                DataCriacao = DateTime.UtcNow
-            },
-            // Infraestrutura
-            new
-            {
-                Id = 3,
-                Titulo = "Manutenção Ar Condicionado",
-                CategoriaId = 2,
-                UltimoEditorId = 1,
-                TextoTemplate = "Atenção colaboradores do setor [Setor]. Haverá manutenção preventiva nos aparelhos de ar condicionado no dia [Data] entre [HoraInicio] e [HoraFim].",
-                DataCriacao = DateTime.UtcNow
-            },
-            // RH
-            new
-            {
-                Id = 4,
-                Titulo = "Erro no Ponto Eletrônico",
-                CategoriaId = 3,
-                UltimoEditorId = 1,
-                TextoTemplate = "Informamos que o sistema de ponto apresenta instabilidade hoje, dia [Data]. Favor registrar o ponto manualmente via formulário entregue pelo gestor [NomeGestor].",
-                DataCriacao = DateTime.UtcNow
-            },
-            // Segurança
-            new
-            {
-                Id = 5,
-                Titulo = "Alerta de Chuvas Fortes",
-                CategoriaId = 5, // Operações
-                UltimoEditorId = 1,
-                TextoTemplate = "Alerta para as equipes de campo da região [Regiao]: Previsão de tempestades severas para as próximas [Horas] horas. Redobrem a atenção e sigam o protocolo de segurança [Protocolo].",
+                TextoTemplate = "Identificamos lentidão no módulo [ModuloSAP] do sistema SAP...",
                 DataCriacao = DateTime.UtcNow
             }
         );
