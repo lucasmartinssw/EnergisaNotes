@@ -43,10 +43,11 @@ public class UsuariosController : ControllerBase
 
        
             int areaPadraoId = 1;
+            int cargoPadraoId = 1;
 
             try
             {
-                usuario = new Usuario(azureId, nome, email, areaPadraoId, isSupervisor: false);
+                usuario = new Usuario(azureId, nome, email, areaPadraoId, cargoPadraoId, isSupervisor: false);
 
                 await _usuarioRepo.AdicionarAsync(usuario);
             }
