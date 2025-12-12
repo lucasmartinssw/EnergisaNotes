@@ -26,13 +26,13 @@ public class IncidentesController : ControllerBase
     {
         var incidentes = await _incidenteRepo.ObterTodosAsync();
 
-        // Mapeamento Entidade -> DTO
         var dtos = incidentes.Select(i => new IncidenteResponseDto(
             i.Id,
             i.Titulo,
             i.TextoTemplate,
             i.Categoria?.Nome ?? "Sem Categoria",
-            i.UltimoEditor?.Nome ?? "Desconhecido",
+            i.UltimoEditor?.Colaborador?.Nome ?? "Editor Desconhecido",
+
             i.DataAtualizacao
         ));
 
@@ -42,14 +42,17 @@ public class IncidentesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] CriarIncidenteDto dto)
     {
-        // 1. Identificar Usuário Logado (Supervisor?)
+        // 1. Identificar Usuário Logado
         var (usuario, erro) = await ObterUsuarioLogado();
         if (usuario == null) return Unauthorized(erro);
+
+        // A permissão IsSupervisor continua na tabela Usuario (Crachá), então isso mantém igual
         if (!usuario.IsSupervisor) return Forbid();
 
         // 2. Criar Entidade de Domínio
         try
         {
+            // O Incidente guarda o ID do Usuario (Login) que fez a edição, isso está correto.
             var novoIncidente = new Incidente(dto.Titulo, dto.TextoTemplate, dto.CategoriaId, usuario.Id);
             await _incidenteRepo.AdicionarAsync(novoIncidente);
 
@@ -57,7 +60,7 @@ public class IncidentesController : ControllerBase
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(ex.Message); // Retorna erro de validação do Domínio
+            return BadRequest(ex.Message);
         }
     }
 
@@ -71,7 +74,6 @@ public class IncidentesController : ControllerBase
         var incidente = await _incidenteRepo.ObterPorIdAsync(id);
         if (incidente == null) return NotFound();
 
-        // Atualiza a entidade de domínio
         try
         {
             incidente.Atualizar(dto.Titulo, dto.TextoTemplate, usuario.Id, dto.CategoriaId);
@@ -91,6 +93,10 @@ public class IncidentesController : ControllerBase
         if (string.IsNullOrEmpty(azureId)) return (null, "Token inválido");
 
         var usuario = await _usuarioRepo.ObterPorAzureIdAsync(azureId);
-        return (usuario, null); // Se null, o middleware de UserSync (futuro) ou o front deve tratar
+
+        // Se o usuário logar mas não tiver sido criado no banco ainda (erro de sincronia), retornamos null
+        if (usuario == null) return (null, "Usuário não encontrado na base local.");
+
+        return (usuario, null);
     }
 }

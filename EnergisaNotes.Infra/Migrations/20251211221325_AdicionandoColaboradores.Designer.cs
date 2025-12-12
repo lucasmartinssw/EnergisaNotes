@@ -3,6 +3,7 @@ using System;
 using EnergisaNotes.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnergisaNotes.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251211221325_AdicionandoColaboradores")]
+    partial class AdicionandoColaboradores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,37 +47,37 @@ namespace EnergisaNotes.Infra.Migrations
                         new
                         {
                             Id = 1,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9057),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1321),
                             Nome = "Corporativo"
                         },
                         new
                         {
                             Id = 2,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9065),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1324),
                             Nome = "Tecnologia da Informação"
                         },
                         new
                         {
                             Id = 3,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9065),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1325),
                             Nome = "Recursos Humanos"
                         },
                         new
                         {
                             Id = 4,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9066),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1326),
                             Nome = "Operações"
                         },
                         new
                         {
                             Id = 5,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9067),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1326),
                             Nome = "Comercial"
                         },
                         new
                         {
                             Id = 6,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9067),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1327),
                             Nome = "Atendimento"
                         });
                 });
@@ -104,37 +107,37 @@ namespace EnergisaNotes.Infra.Migrations
                         new
                         {
                             Id = 1,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9531),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1762),
                             Nome = "Colaborador"
                         },
                         new
                         {
                             Id = 2,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9532),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1763),
                             Nome = "Analista de T.I."
                         },
                         new
                         {
                             Id = 3,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9533),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1764),
                             Nome = "Gerente"
                         },
                         new
                         {
                             Id = 4,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9534),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1764),
                             Nome = "Eletricista"
                         },
                         new
                         {
                             Id = 5,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9535),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1765),
                             Nome = "Atendente"
                         },
                         new
                         {
                             Id = 6,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 875, DateTimeKind.Utc).AddTicks(9535),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(1765),
                             Nome = "Supervisor"
                         });
                 });
@@ -167,37 +170,37 @@ namespace EnergisaNotes.Infra.Migrations
                         new
                         {
                             Id = 1,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(167),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(2838),
                             Nome = "Tecnologia da Informação"
                         },
                         new
                         {
                             Id = 2,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(168),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(2839),
                             Nome = "Infraestrutura Predial"
                         },
                         new
                         {
                             Id = 3,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(169),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(2840),
                             Nome = "Recursos Humanos"
                         },
                         new
                         {
                             Id = 4,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(169),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(2841),
                             Nome = "Segurança do Trabalho"
                         },
                         new
                         {
                             Id = 5,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(170),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(2841),
                             Nome = "Operações de Rede"
                         },
                         new
                         {
                             Id = 6,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(171),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(2842),
                             Nome = "Frota e Logística"
                         });
                 });
@@ -207,10 +210,6 @@ namespace EnergisaNotes.Infra.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Aniversario")
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar(5)");
 
                     b.Property<int>("AreaId")
                         .HasColumnType("int");
@@ -228,14 +227,6 @@ namespace EnergisaNotes.Infra.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("varchar(150)");
-
-                    b.Property<string>("Empresa")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Endereco")
-                        .HasMaxLength(250)
-                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -260,25 +251,19 @@ namespace EnergisaNotes.Infra.Migrations
                         new
                         {
                             Id = 1,
-                            Aniversario = "01/01",
                             AreaId = 1,
                             CargoId = 3,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(3932),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(6129),
                             Email = "admin@energisa.com.br",
-                            Empresa = "Energisa Participações",
-                            Endereco = "Rua da Matriz, 100",
                             Nome = "Admin Energisa"
                         },
                         new
                         {
                             Id = 2,
-                            Aniversario = "15/05",
                             AreaId = 6,
                             CargoId = 2,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(3935),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(6132),
                             Email = "joao.silva@energisa.com.br",
-                            Empresa = "Energisa Mato Grosso",
-                            Endereco = "Av. Historiador Rubens de Mendonça, 200",
                             Nome = "João Colaborador"
                         });
                 });
@@ -323,7 +308,7 @@ namespace EnergisaNotes.Infra.Migrations
                         {
                             Id = 1,
                             CategoriaId = 1,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(9404),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 410, DateTimeKind.Utc).AddTicks(1927),
                             TextoTemplate = "Prezados, informamos que a unidade [Unidade] encontra-se sem acesso à internet...",
                             Titulo = "Indisponibilidade de Link (Internet)",
                             UltimoEditorId = 1
@@ -332,7 +317,7 @@ namespace EnergisaNotes.Infra.Migrations
                         {
                             Id = 2,
                             CategoriaId = 1,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(9406),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 410, DateTimeKind.Utc).AddTicks(1929),
                             TextoTemplate = "Identificamos lentidão no módulo [ModuloSAP] do sistema SAP...",
                             Titulo = "Lentidão no SAP",
                             UltimoEditorId = 1
@@ -387,7 +372,7 @@ namespace EnergisaNotes.Infra.Migrations
                             Id = 1,
                             AzureAdObjectId = "00000000-0000-0000-0000-000000000001",
                             ColaboradorId = 1,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(6106),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(8764),
                             IsSupervisor = true
                         },
                         new
@@ -395,7 +380,7 @@ namespace EnergisaNotes.Infra.Migrations
                             Id = 2,
                             AzureAdObjectId = "00000000-0000-0000-0000-000000000002",
                             ColaboradorId = 2,
-                            DataCriacao = new DateTime(2025, 12, 11, 22, 28, 14, 876, DateTimeKind.Utc).AddTicks(6109),
+                            DataCriacao = new DateTime(2025, 12, 11, 22, 13, 24, 409, DateTimeKind.Utc).AddTicks(8767),
                             IsSupervisor = false
                         });
                 });

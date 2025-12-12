@@ -13,18 +13,22 @@ public class IncidenteRepository : BaseRepository<Incidente>, IIncidenteReposito
     {
         return await _context.Incidentes
             .AsNoTracking()
-            .Include(i => i.Categoria) // Join
+            .Include(i => i.Categoria)
+            .Include(i => i.UltimoEditor)           
+                .ThenInclude(u => u.Colaborador)    
             .Where(i => i.CategoriaId == categoriaId)
             .OrderByDescending(i => i.DataAtualizacao)
             .ToListAsync();
     }
 
-    // Sobrescrevendo o ObterTodos para incluir a Categoria no Join
+
     public new async Task<IEnumerable<Incidente>> ObterTodosAsync()
     {
         return await _context.Incidentes
             .AsNoTracking()
             .Include(i => i.Categoria)
+            .Include(i => i.UltimoEditor)           
+                .ThenInclude(u => u.Colaborador)   
             .OrderByDescending(i => i.DataAtualizacao)
             .ToListAsync();
     }

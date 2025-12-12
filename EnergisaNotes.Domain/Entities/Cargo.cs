@@ -2,16 +2,16 @@
 
 namespace EnergisaNotes.Domain.Entities;
 
-public class Area : BaseEntity
+public class Cargo : BaseEntity
 {
     public string Nome { get; private set; }
 
-    [JsonIgnore]
+    [JsonIgnore] // Evita ciclo infinito no JSON
     public virtual ICollection<Usuario> Usuarios { get; private set; }
 
-    protected Area() { }
+    protected Cargo() { }
 
-    public Area(string nome)
+    public Cargo(string nome)
     {
         Validar(nome);
         Nome = nome;
@@ -21,15 +21,15 @@ public class Area : BaseEntity
     {
         Validar(novoNome);
         Nome = novoNome;
-        AtualizarTimestamp(); // Método herdado de BaseEntity
+        AtualizarTimestamp();
     }
 
     private void Validar(string nome)
     {
         if (string.IsNullOrWhiteSpace(nome))
-            throw new ArgumentException("O nome da área é obrigatório.");
+            throw new ArgumentException("O nome do cargo é obrigatório.");
 
         if (nome.Length < 3)
-            throw new ArgumentException("O nome da área deve ter no mínimo 3 caracteres.");
+            throw new ArgumentException("O nome do cargo deve ter no mínimo 3 caracteres.");
     }
 }

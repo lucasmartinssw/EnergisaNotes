@@ -4,14 +4,18 @@ using EnergisaNotes.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnergisaNotes.Infra.Repositories;
-
 public class UsuarioRepository : BaseRepository<Usuario>, IUsuarioRepository
 {
-    public UsuarioRepository(AppDbContext context) : base(context) { }
-
-    public async Task<Usuario?> ObterPorAzureIdAsync(string azureId)
+    public UsuarioRepository(AppDbContext context) : base(context)
+    {
+    }
+    public async Task<Usuario?> ObterPorAzureIdAsync(string azureAdId)
     {
         return await _context.Usuarios
-            .FirstOrDefaultAsync(u => u.AzureAdObjectId == azureId);
+            .Include(u => u.Colaborador)
+                .ThenInclude(c => c.Area)
+            .Include(u => u.Colaborador)
+                .ThenInclude(c => c.Cargo)
+            .FirstOrDefaultAsync(u => u.AzureAdObjectId == azureAdId);
     }
 }

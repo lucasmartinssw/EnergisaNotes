@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using DotNetEnv;
-
-// --- NOVOS USINGS NECESSÁRIOS ---
 using EnergisaNotes.Domain.Interfaces;
 using EnergisaNotes.Infra.Repositories;
 
@@ -18,6 +16,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<IAreaRepository, AreaRepository>();
+builder.Services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
 
 // --- 3. AUTENTICAÇÃO ---
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
