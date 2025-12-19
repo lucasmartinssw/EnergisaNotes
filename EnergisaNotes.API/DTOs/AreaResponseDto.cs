@@ -5,6 +5,7 @@ public record EmpresaDto(int Id, string Nome);
 public record AreaResponseDto(
     int Id,
     string Nome,
-    string Coordenacao,
+    int? CoordenadorId,     
+    string NomeCoordenador,
     List<EmpresaDto> Empresas
 );

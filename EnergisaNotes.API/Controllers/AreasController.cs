@@ -23,10 +23,13 @@ public class AreasController : ControllerBase
     public async Task<ActionResult<IEnumerable<AreaResponseDto>>> GetAll()
     {
         var areas = await _areaRepo.ObterTodasAsync();
+
         var response = areas.Select(a => new AreaResponseDto(
             a.Id,
             a.Nome,
-            a.Coordenacao ?? "Não definida",
+            a.CoordenadorId,
+            a.Coordenador?.Nome ?? "Cargo Vago",
+
             a.Empresas.Select(e => new EmpresaDto(e.Id, e.Nome)).ToList()
         ));
 

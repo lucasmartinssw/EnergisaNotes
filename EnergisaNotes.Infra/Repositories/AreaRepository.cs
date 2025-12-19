@@ -18,6 +18,8 @@ public class AreaRepository : IAreaRepository
     {
         return await _context.Areas
                              .AsNoTracking()
+                             .Include(a => a.Empresas)
+                             .Include(a => a.Coordenador)
                              .OrderBy(a => a.Nome)
                              .ToListAsync();
     }

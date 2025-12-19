@@ -6,7 +6,10 @@ public class Cargo : BaseEntity
 {
     public string Nome { get; private set; }
 
-    [JsonIgnore] // Evita ciclo infinito no JSON
+    [JsonIgnore]
+    public virtual ICollection<Colaborador> Colaboradores { get; private set; }
+
+    [JsonIgnore]
     public virtual ICollection<Usuario> Usuarios { get; private set; }
 
     protected Cargo() { }
@@ -15,6 +18,8 @@ public class Cargo : BaseEntity
     {
         Validar(nome);
         Nome = nome;
+        Colaboradores = new List<Colaborador>();
+        Usuarios = new List<Usuario>();
     }
 
     public void Atualizar(string novoNome)
