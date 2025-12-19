@@ -1,4 +1,5 @@
-﻿using EnergisaNotes.Domain.Entities;
+﻿using EnergisaNotes.API.DTOs;
+using EnergisaNotes.Domain.Entities;
 using EnergisaNotes.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,18 @@ public class AreasController : ControllerBase
         _areaRepo = areaRepo;
     }
 
- 
+
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Area>>> GetAll()
+    public async Task<ActionResult<IEnumerable<AreaResponseDto>>> GetAll()
     {
         var areas = await _areaRepo.ObterTodasAsync();
-        return Ok(areas);
+        var response = areas.Select(a => new AreaResponseDto(
+            a.Id,
+            a.Nome,
+            a.Coordenacao ?? "Não definida",
+            a.Empresas.Select(e => new EmpresaDto(e.Id, e.Nome)).ToList()
+        ));
+
+        return Ok(response);
     }
 }
